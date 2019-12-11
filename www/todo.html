@@ -1,0 +1,331 @@
+
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <meta http-equiv="Content-Security-Policy" content="default-src * 'unsafe-inline'; style-src 'self' 'unsafe-inline'; media-src *" />
+    
+    <link rel="stylesheet" type="text/css" href="css/index.css" />
+    
+    <title>Task Manager</title>
+    
+</head>
+<!-- when the body of the website is loaded, it checks for the value of the checkbox-->
+<body onload="validCheckLoad()">
+    
+    
+    <div class="title"> To Do List </div>
+    
+    <br><br>
+    
+<div class="inputArea" align="center">
+
+    <div class="inputTask" align="center">
+<input type="text" style="width: 150px;" onfocus ="this.value=''" id="task" placeholder="enter a new task">
+    </div>
+
+
+<div class="bar">
+
+    <input type='date' style="width: 50px;" id='dueDate' onfocus ="this.value= ''" min='2019-10-01' max='2020-12-31'>
+
+    
+    <select id="priority">
+        <option value="" disabled>choose priority</option>
+        <option value = "HIGH" > HIGH </option>
+        <option value = "MEDIUM"> MEDIUM </option>
+        <option value="LOW"> LOW </option>
+    </select>
+    
+    <select id="category" style="width: 65px;">
+        <option value="" disabled>choose category</option>
+        <option value="Work">WORK </option>
+        <option value="Personal"> PERSONAL</option>
+        <option value="School"> SCHOOL</option>
+    </select>
+    
+    <button id="add">+</button>
+    <button id="clear" onclick="clearStr()"> Clear</button>
+</div>
+    
+    
+    
+    
+    <table align="center" id="myTable">
+    <tr> 
+            <th>Done?</th>
+            <th>Task</th>
+            <th>Due Date</th>
+            <th>Priority</th>
+            <th>Category</th>
+    </tr>
+    </table>
+        
+    <br>
+    
+<div class="content">
+  <div id="todos" align="center"></div>
+    </div>
+
+
+<script src="index.js"></script>
+
+<script>
+
+
+//this function initializes the todo array and gets that item to the local storage and parses
+function get_todos() {
+    var todos = new Array;
+    var todos_str = localStorage.getItem('todo');
+    
+    
+    
+    if (todos_str !== null) {
+        todos = JSON.parse(todos_str); 
+    }
+    return todos;
+}
+
+
+
+    
+//Clears the local storage completely and clears the screen without refreshing
+function clearStr(){
+    localStorage.clear();
+    alert("*** ALL CLEAR ***");
+    document.getElementById("todos").innerHTML= " ";
+}
+
+    
+//changes the color of the text based on the priority
+function priColor() {
+    
+    var val = document.getElementById('priority').value;
+    if (val == 'HIGH') {
+        
+        colstr="<font color='orange'>";
+        colstr+= priority.value;
+        colstr+="</font>";
+    }
+    
+    if (val == 'MEDIUM') {
+        
+        colstr = "<font color='yellow'>";
+        colstr+= priority.value;
+        colstr+="</font>";
+    }
+    
+    if (val == 'LOW') {
+        
+        colstr = "<font color='dodgerblue'>";
+        colstr += priority.value;
+        colstr += "</font>";
+    }
+}
+    
+
+//compares current date with input date and changes the font color and style 
+//RED if it is overdue
+//BOLD if it is due on the current date selected
+function fontDate() {
+    
+    var userDate = document.getElementById('dueDate').value;
+    
+    var today = new Date();
+    var yyyy = today.getFullYear();
+    var mm = today.getMonth()+1;
+    var dd = today.getDate();
+    
+    //formats current date to match the date input
+    if (dd < 10) {
+        dd = '0' + dd;
+    }
+    
+    if (mm < 10) {
+        mm= '0' + mm;
+    }
+    
+    //new formatted date
+    today = yyyy + '-' + mm +'-' + dd;
+    
+        
+    if (userDate == today) {
+        datestr = "<strong>";
+        datestr += dueDate.value;
+        datestr += "</strong>";
+    }
+    
+    if (userDate > today) {
+        datestr = dueDate.value;
+    }
+    
+    if (userDate < today) {
+        datestr = "<strong>";
+        datestr += "<font color= 'red'>";
+        datestr += dueDate.value;
+        datestr += "</font>";
+        datestr += "</strong>";
+    }
+}
+    
+
+
+ 
+
+//validates the checkbox and stays checked even after reload of page
+//reloads when the body is loaded
+//*********it is only saving the first checkbox**********
+function validCheckLoad() {
+    var checked = JSON.parse(localStorage.getItem('myCheckbox'));
+    
+    if(checked == true) {
+        document.getElementById("myCheckbox").checked = checked;
+    }
+} 
+
+
+//this function saves the checkbox to the local storage once it is checked off
+// it is only saving the first checkbox
+function saveCheckbox() {
+    var checkbox = document.getElementById('myCheckbox');
+        localStorage.setItem('myCheckbox', checkbox.checked);
+}
+
+
+    
+//gathers the date by the value that was selected
+function addDate() {
+   var due = document.getElementById("dueDate").value; 
+}
+
+//gathers the priority value
+function addPriority() {
+    var pri = document.getElementById("priority").value;
+ }
+    
+//gathers the category valye    
+function addCategory() {
+    var cate = document.getElementById("category").value;
+}
+
+
+    
+//Date array is initialized outside of the add function
+var dateArray = ['1','2'];
+
+//Attempted to use bubble sort to sort the todos based on date
+/*function sortArray() {
+    
+    var len = dateArray.length;
+    
+    for (var i = 0; i < len; i++) {
+        for(var j = 0; j < len; j++) {
+            if (dateArray[j] > dateArray[j+1]) {
+                var temp = dateArray[j];
+                dateArray[j] = dateArray[j+1];
+                [dateArray+1] = temp;
+            } 
+        }
+    };
+    return dateArray;
+}
+*/
+    
+    
+function add() {
+    var task = document.getElementById('task').value;
+    
+    
+    //This pushes the value of dueDate into the dateArray
+    //var dateval = dateArray.push(document.getElementById('dueDate').value);
+    
+    /*
+    These alerts show what is in the dateArray and it's length to show that it is pushing the dueDate.value into the array everytime the add button is clicked
+    
+    alert(dateArray);
+    alert(dateval);
+    */
+    
+    //this calls the function to check the date and change color if needed
+    fontDate();
+    
+    //this calls the function to change the color according to the priority selected by the user
+    priColor();
+    
+    //col str is the color string for priority and datestr is to show the 
+    task += '&nbsp &nbsp' + datestr + '&nbsp &nbsp'  + colstr + '&nbsp &nbsp' + category.value + '&nbsp &nbsp';
+    
+    //pushes pushes task into the array when the add button is clicked
+    var todos = get_todos();
+    todos.push(task);
+    localStorage.setItem('todo', JSON.stringify(todos));
+    
+    showData();
+
+    return false;
+}
+ 
+    
+    
+    
+//Removes a single item from the list of todos by splicing the array
+function remove() {
+    
+    var id = this.getAttribute('id');
+    var todos = get_todos();
+    
+    //JSON is a predefined library
+    //splice removes it from the array spot
+    todos.splice(id, 1);
+    localStorage.setItem('todo', JSON.stringify(todos));
+ 
+    showData();
+ 
+    return false;
+}
+    
+    
+//the main function to have the html display as an ordered list
+function showData() {
+    
+    
+    
+    var todos = get_todos();
+ 
+    var html = '<ol>';    
+    
+    
+    for(var i = 0; i <todos.length; i++) {
+        html += '<li><input type="checkbox" id="myCheckbox" onclick = "saveCheckbox()">' + '&nbsp' + todos[i] + '<button class="remove" id="' + i  + '"> X </button><br><br></input> </li>';
+    };
+    
+        
+    html += '</ol>';
+    
+    
+    document.getElementById('todos').innerHTML = html;
+    
+    
+    //assigning buttons to the class name remove
+    var buttons = document.getElementsByClassName('remove');
+    
+    
+    //for loop removes the item from the list when remove button is clicked
+    for (var i=0; i < buttons.length; i++) {
+        buttons[i].addEventListener('click', remove);
+    };
+    }
+    
+    //when add button is clicked it gathers and shows the data
+    document.getElementById('add').addEventListener('click', add);
+    showData();
+    
+    
+</script>
+</body>
+</html>

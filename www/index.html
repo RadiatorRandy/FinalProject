@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <meta http-equiv="Content-Security-Policy" content="default-src * 'unsafe-inline'; style-src 'self' 'unsafe-inline'; media-src *" />
+
+    <!-- The css is embedded into the html file -->
+    
+    <title>Splash Screen</title>
+    </head>
+    <body>
+
+<style>
+
+
+body {
+    background-color:#0099ff;
+
+}
+
+.box {
+    width: 200px;
+    height: 200px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    overflow: hidden;
+}
+
+.box1 {
+    border-radius: 50%;
+    border-left: 30px solid white;
+    border-right: 30px solid white;
+    border-top: 30px solid transparent;
+    border-bottom: 30px solid transparent;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    animation: rotate 2s infinite;
+
+}
+
+@keyframes rotate {
+    0% {
+        transform: translate(-50%, -50%) rotate(0deg);
+    }
+    50% {
+        transform: translate(-50%, -50%) rotate(-180deg);
+    }
+
+    }
+    h1 {
+    color: white;
+    display: inline-table;
+    position: absolute;
+    top: 60%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+
+}
+
+@keyframes animate {
+    0% { 
+        width: 0;
+    }
+    100% {
+        width: 100%;
+    }
+}
+
+.fading {
+    animation: fadein 4s ease-in;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    font-size: 20px;
+
+}
+
+@keyframes fadein {
+    from {
+        opacity: 0;
+        transform: scale3d(.35, .35)
+        
+    }
+    to {
+        opacity: 1;
+        transform: scale3d(1, 1)
+
+    }
+}
+    
+    
+#app {
+    background-color: orange;
+    position: absolute;
+    top: 80%;
+    left: 50%;
+    text-align: center;
+     display: inline-table;
+    transform: translate(-50%,-50%);
+}
+
+        
+        
+        </style>
+        
+        
+
+<div class="box">
+    </div>
+<br>
+    <div class="box1"> </div>
+  
+    <div class="box2"> 
+        <h1 class="fading"> <br><br> Designed and Developed by: <br><br>  &#9824; Jacob Good 	&#9824; <br> &#9824; Devin Coladonato &#9824; <br> &#9824; Olivia Warner  &#9824;</h1> 
+        
+        <br><br><br><br>
+        
+        <button id = "app" onclick = "location.href ='todo.html'"> Go to App </button>      
+</div>
+
+    
+
+    </body>
+</html>
